@@ -81,8 +81,18 @@ def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_param
     Returns:
         theta - (k, d) NumPy array that is the final value of parameters theta
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+
+    softmax_probabilities = compute_probabilities(X, theta, temp_parameter)
+    n, k = X.shape[0], theta.shape[0]
+
+    mask_matrix = sparse.coo_matrix(([1]*n, (Y, np.arange(n))), shape=(k, n))
+    inner = mask_matrix - softmax_probabilities
+    sigma = np.dot(inner, X)
+    gradient = -1/(n*temp_parameter) * sigma + lambda_factor*theta
+
+    theta -= alpha * gradient
+    return theta
+
 
 def update_y(train_y, test_y):
     """
