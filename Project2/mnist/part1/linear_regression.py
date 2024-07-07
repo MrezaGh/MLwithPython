@@ -21,6 +21,14 @@ def closed_form(X, Y, lambda_factor):
     b = np.dot(np.transpose(X), Y)
     theta = np.dot(A_inverse, b)
 
+    # # fancy stuff with sklearn
+    # from sklearn.linear_model import LinearRegression
+    # clf = LinearRegression(fit_intercept=False)
+    # clf.fit(X, Y)
+    # theta = clf.coef_
+    # theta_0 = clf.intercept_
+    # theta = np.hstack((theta, theta_0))
+
     return theta
 
 
