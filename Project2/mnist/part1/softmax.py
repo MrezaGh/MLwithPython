@@ -55,8 +55,14 @@ def compute_cost_function(X, Y, theta, lambda_factor, temp_parameter):
     Returns
         c - the cost value (scalar)
     """
-    #YOUR CODE HERE
-    raise NotImplementedError
+
+    general_cost = np.sum(theta * theta) * lambda_factor / 2
+    soft_probabilities = compute_probabilities(X, theta, temp_parameter)
+    costs = soft_probabilities[Y, np.arange(soft_probabilities.shape[1])]
+    loss = -np.sum(np.log(costs)) / len(X)
+    total_cost = general_cost + loss
+    return total_cost
+
 
 def run_gradient_descent_iteration(X, Y, theta, alpha, lambda_factor, temp_parameter):
     """
