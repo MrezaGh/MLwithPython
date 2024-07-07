@@ -39,5 +39,11 @@ def rbf_kernel(X, Y, gamma):
         Returns:
             kernel_matrix - (n, m) Numpy array containing the kernel matrix
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+
+    # dist = np.array([[np.linalg.norm(row - row_y)**2 for row_y in Y] for row in X])
+    X_norm = np.sum(X ** 2, axis=1).reshape(-1, 1)
+    Y_norm = np.sum(Y ** 2, axis=1).reshape(1, -1)
+    dist = X_norm + Y_norm - 2 * np.dot(X, Y.T)
+    kernel_matrix = np.exp(-gamma*dist)
+
+    return kernel_matrix
