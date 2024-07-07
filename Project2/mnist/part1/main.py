@@ -203,8 +203,8 @@ test_pca10 = project_onto_PC(test_x, pcs, n_components, feature_means)
 
 # TODO: First fill out cubicFeatures() function in features.py as the below code requires it.
 
-train_cube = cubic_features(train_pca10)
-test_cube = cubic_features(test_pca10)
+# train_cube = cubic_features(train_pca10)
+# test_cube = cubic_features(test_pca10)
 
 # train_cube (and test_cube) is a representation of our training (and test) data
 # after applying the cubic kernel feature mapping to the 10-dimensional PCA representations.
@@ -215,3 +215,16 @@ test_cube = cubic_features(test_pca10)
 theta, steps = softmax_regression(train_cube, train_y, temp_parameter=1, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
 test_error = compute_test_error(test_cube, test_y, theta, temp_parameter=1)
 print('softmax on cubic-kernel feature-mapping of PCA with 10 components of data, test_error=', test_error)
+# theta, steps = softmax_regression(train_cube, train_y, temp_parameter=1, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
+# test_error = compute_test_error(test_cube, test_y, theta, temp_parameter=1)
+# print('softmax on cubic-kernel feature-mapping of PCA with 10 components of data, test_error=', test_error)
+
+## cubic polynomial svm
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+clf = SVC(kernel="poly", degree=3, random_state=0)
+clf.fit(train_pca10, train_y)
+preds = clf.predict(test_pca10)
+test_error = 1 - accuracy_score(test_y, preds)
+
+print('polynomial svm with kernel degree 3 of PCA with 10 components of data, test_error=', test_error)
