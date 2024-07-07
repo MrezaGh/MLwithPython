@@ -212,19 +212,24 @@ test_pca10 = project_onto_PC(test_x, pcs, n_components, feature_means)
 # TODO: Train your softmax regression model using (train_cube, train_y)
 #       and evaluate its accuracy on (test_cube, test_y).
 
-theta, steps = softmax_regression(train_cube, train_y, temp_parameter=1, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
-test_error = compute_test_error(test_cube, test_y, theta, temp_parameter=1)
-print('softmax on cubic-kernel feature-mapping of PCA with 10 components of data, test_error=', test_error)
 # theta, steps = softmax_regression(train_cube, train_y, temp_parameter=1, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
 # test_error = compute_test_error(test_cube, test_y, theta, temp_parameter=1)
 # print('softmax on cubic-kernel feature-mapping of PCA with 10 components of data, test_error=', test_error)
 
 ## cubic polynomial svm
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
-clf = SVC(kernel="poly", degree=3, random_state=0)
+# from sklearn.svm import SVC
+# from sklearn.metrics import accuracy_score
+# clf = SVC(kernel="poly", degree=3, random_state=0)
+# clf.fit(train_pca10, train_y)
+# preds = clf.predict(test_pca10)
+# test_error = 1 - accuracy_score(test_y, preds)
+
+# print('polynomial svm with kernel degree 3 of PCA with 10 components of data, test_error=', test_error)
+
+
+## Rbf svm
+clf = SVC(kernel="rbf", random_state=0)
 clf.fit(train_pca10, train_y)
 preds = clf.predict(test_pca10)
 test_error = 1 - accuracy_score(test_y, preds)
-
-print('polynomial svm with kernel degree 3 of PCA with 10 components of data, test_error=', test_error)
+print('rbf svm of PCA with 10 components of data, test_error=', test_error)
