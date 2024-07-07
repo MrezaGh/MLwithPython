@@ -217,8 +217,8 @@ test_pca10 = project_onto_PC(test_x, pcs, n_components, feature_means)
 # print('softmax on cubic-kernel feature-mapping of PCA with 10 components of data, test_error=', test_error)
 
 ## cubic polynomial svm
-# from sklearn.svm import SVC
-# from sklearn.metrics import accuracy_score
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
 # clf = SVC(kernel="poly", degree=3, random_state=0)
 # clf.fit(train_pca10, train_y)
 # preds = clf.predict(test_pca10)
