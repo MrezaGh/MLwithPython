@@ -19,11 +19,25 @@ class CNN(nn.Module):
 
     def __init__(self, input_dimension):
         super(CNN, self).__init__()
-        # TODO initialize model layers here
+        self.conv1 = nn.Conv2d(1, 32, (3, 3))
+        self.max_pool = nn.MaxPool2d((2, 2))
+        self.conv2 = nn.Conv2d(32, 64, (3, 3))
+        self.fc1 = nn.Linear(9*5*64, 128)
+        self.flatten = nn.Flatten()
+        self.dropout = nn.Dropout()
+        self.out1 = nn.Linear(128, 10)
+        self.out2 = nn.Linear(128, 10)
 
     def forward(self, x):
-
-        # TODO use model layers to predict the two digits
+        x = F.relu(self.conv1(x))
+        x = self.max_pool(x)
+        x = F.relu(self.conv2(x))
+        x = self.max_pool(x)  # -> 9x5 matrix
+        x = self.flatten(x)
+        x = self.fc1(x)
+        x = self.dropout(x)
+        out_first_digit = self.out1(x)
+        out_second_digit = self.out2(x)
 
         return out_first_digit, out_second_digit
 
@@ -49,7 +63,7 @@ def main():
 
     # Load model
     input_dimension = img_rows * img_cols
-    model = CNN(input_dimension) # TODO add proper layers to CNN class above
+    model = CNN(input_dimension)
 
     # Train
     train_model(train_batches, dev_batches, model)
